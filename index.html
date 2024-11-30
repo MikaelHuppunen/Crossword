@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crossword with Autofocus</title>
+  <style>
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .row {
+      display: grid;
+      gap: 2px;
+    }
+    .cell {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      border: 1px solid black;
+      line-height: 40px;
+      background-color: #f0f0f0;
+    }
+    .cell input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      text-align: center;
+      font-size: 18px;
+      background: transparent;
+    }
+    .cell.first {
+      background-color: yellow;
+    }
+    .tip {
+      font-size: 16px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Crossword Puzzle</h1>
+  <div id="crossword" class="grid"></div>
+  <button onclick="checkAnswers()">Check Answers</button>
+  <script>
+    const gridData = [
+      { row: ['', '', '', '', ''], tip: 'This is the first word.' },
+      { row: ['', '', '', '', '', ''], tip: 'Second word with six letters.' },
+      { row: ['', '', '', '', '', '', ''], tip: 'Third word with seven letters.' }
+    ];
+
+    const crosswordContainer = document.getElementById('crossword');
+
+    // Create each row dynamically
+    gridData.forEach((data, rowIndex) => {
+      const rowElement = document.createElement('div');
+      rowElement.classList.add('row');
+      rowElement.style.gridTemplateColumns = `repeat(${data.row.length}, 40px)`;
+
+      const tipElement = document.createElement('div');
+      tipElement.classList.add('tip');
+      tipElement.innerText = `Tip: ${data.tip}`;
+
+      // Create cells in the row
+      data.row.forEach((cell, colIndex) => {
+        const cellElement = document.createElement('div');
+        cellElement.classList.add('cell');
+
+        if (colIndex === 0) {
+          cellElement.classList.add('first'); // Highlight first cell in yellow
+        }
+
+        const input = document.createElement('input');
+        input.maxLength = 1; // Limit input to one character
+        input.dataset.row = rowIndex; // Store row index
+        input.dataset.col = colIndex; // Store column index
+
+        // Automatically move to the next input on typing
+        input.addEventListener('input', (event) => {
+          const nextInput = document.querySelector(
+            `input[data-row="${rowIndex}"][data-col="${colIndex + 1}"]`
+          );
+          if (nextInput && event.target.value) {
+            nextInput.focus();
+          }
+        });
+
+        cellElement.appendChild(input);
+        rowElement.appendChild(cellElement);
+      });
+
+      crosswordContainer.appendChild(tipElement); // Add the tip
+      crosswordContainer.appendChild(rowElement); // Add the row
+    });
+
+    // Function to check user inputs
+    function checkAnswers() {
+      const answers = gridData.map((data, rowIndex) => {
+        return data.row.map((_, colIndex) => {
+          const input = document.querySelector(
+            `input[data-row="${rowIndex}"][data-col="${colIndex}"]`
+          );
+          return input ? input.value.toUpperCase() : '';
+        });
+      });
+
+      console.log('User Answers:', answers);
+      alert(`User Answers: ${JSON.stringify(answers)}`);
+    }
+  </script>
+</body>
+</html>
