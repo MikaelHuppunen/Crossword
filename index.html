@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crossword with Tips Aligned</title>
+  <title>Ristikko</title>
   <style>
     .grid {
       display: flex;
       flex-direction: column;
-      gap: 2px; /* Reduced vertical gap between rows */
+      gap: 2px;
     }
     .row-container {
       display: flex;
-      align-items: center; /* Align the tip next to the crossword */
-      gap: 10px; /* Space between the crossword and the tip */
+      align-items: center;
+      gap: 10px;
     }
     .row {
       display: grid;
-      gap: 2px; /* Gap between cells */
+      gap: 2px;
     }
     .cell {
       width: 40px;
@@ -38,17 +38,17 @@
       background: transparent;
     }
     .cell.first {
-      background-color: yellow; /* First cell in each row */
+      background-color: yellow;
     }
     .tip {
       font-size: 16px;
       color: #555;
-      flex-shrink: 0; /* Prevent the tip from resizing */
+      flex-shrink: 0;
     }
   </style>
 </head>
 <body>
-  <h1>Crossword Puzzle</h1>
+  <h1>Ristikko</h1>
   <div id="crossword" class="grid"></div>
   <button onclick="checkAnswers()">Check Answers</button>
   <script>
@@ -56,6 +56,12 @@
       { row: ['', '', '', '', ''], tip: 'This is the first word.' },
       { row: ['', '', '', '', '', ''], tip: 'Second word with six letters.' },
       { row: ['', '', '', '', '', '', ''], tip: 'Third word with seven letters.' }
+    ];
+
+    const correctAnswers = [
+      ['H', 'E', 'L', 'L', 'O'],
+      ['W', 'O', 'R', 'L', 'D', '!'],
+      ['C', 'R', 'O', 'S', 'S', 'W', 'O']
     ];
 
     const crosswordContainer = document.getElementById('crossword');
@@ -119,9 +125,9 @@
       crosswordContainer.appendChild(rowContainer);
     });
 
-    // Function to check user inputs
+    // Function to check user inputs against correct answers
     function checkAnswers() {
-      const answers = gridData.map((data, rowIndex) => {
+      const userAnswers = gridData.map((data, rowIndex) => {
         return data.row.map((_, colIndex) => {
           const input = document.querySelector(
             `input[data-row="${rowIndex}"][data-col="${colIndex}"]`
@@ -130,10 +136,25 @@
         });
       });
 
-      console.log('User Answers:', answers);
-      alert(`User Answers: ${JSON.stringify(answers)}`);
+      let allCorrect = true;
+      userAnswers.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+          if (cell !== correctAnswers[rowIndex][colIndex]) {
+            allCorrect = false;
+          }
+        });
+      });
+
+      if (allCorrect) {
+        alert('Congratulations! All answers are correct!');
+      } else {
+        alert('Some answers are incorrect. Please try again.');
+      }
+
+      console.log('User Answers:', userAnswers);
     }
   </script>
 </body>
 </html>
+
 
