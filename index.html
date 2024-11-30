@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crossword with Autofocus</title>
+  <title>Crossword with Autofocus and Backspace</title>
   <style>
     .grid {
       display: flex;
@@ -78,13 +78,26 @@
         input.dataset.row = rowIndex; // Store row index
         input.dataset.col = colIndex; // Store column index
 
-        // Automatically move to the next input on typing
+        // Move to the next input on typing
         input.addEventListener('input', (event) => {
           const nextInput = document.querySelector(
             `input[data-row="${rowIndex}"][data-col="${colIndex + 1}"]`
           );
           if (nextInput && event.target.value) {
             nextInput.focus();
+          }
+        });
+
+        // Handle backspace to move to the previous input
+        input.addEventListener('keydown', (event) => {
+          if (event.key === 'Backspace' && !event.target.value) {
+            const prevInput = document.querySelector(
+              `input[data-row="${rowIndex}"][data-col="${colIndex - 1}"]`
+            );
+            if (prevInput) {
+              prevInput.focus();
+              prevInput.value = ''; // Clear the previous cell
+            }
           }
         });
 
