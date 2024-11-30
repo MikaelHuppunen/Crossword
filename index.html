@@ -72,36 +72,79 @@
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 999;
     }
+
+    /* Adding a gap between the second and third rows */
+    .gap {
+      margin-top: 40px; /* Equivalent to one cell height */
+    }
   </style>
 </head>
 <body>
-  <h1>Ristikko</h1>
-  <div id="crossword" class="grid"></div>
-  <button onclick="checkAnswers()">Check Answers</button>
-
-  <!-- Modal -->
-  <div class="modal-overlay" id="modalOverlay"></div>
-  <div class="modal" id="modal">
-    <p>Onnitelut, sait kaikki vastaukset oikein.</p>
-    <p>Kannattaa kattoo keltasella oleva sana, wink wink</p>
-    <p>Klikkaa alla olevaa linkkiä:</p>
-    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Ei oo virus</a>
-    <br>
-    <button onclick="hideModal()">Close</button>
-  </div>
-
-  <script>
-    const gridData = [
-      { row: ['', '', '', '', '', '', ''], tip: 'Paikka missä me opiskellaan.' },
-      { row: ['', '', '', '', ''], tip: 'Asuu eksaktumissa' },
-      { row: ['', '', '', ''], tip: 'vesi, tuli, maa, ?' }
-    ];
-
-    const correctAnswers = [
-      ['H', 'I', 'E', 'K', 'K', 'I', 'S'],
-      ['E', 'L', 'M', 'E', 'R'],
-      ['I', 'L', 'M', 'A']
-    ];
+    <h1>Ristikko</h1>
+    <div id="crossword" class="grid"></div>
+    <button onclick="checkAnswers()">Check Answers</button>
+  
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="modal">
+      <p>Onnitelut, sait kaikki vastaukset oikein.</p>
+      <p>Kannattaa kattoo keltasella oleva sana, wink wink</p>
+      <p>Klikkaa alla olevaa linkkiä:</p>
+      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Ei oo virus</a>
+      <br>
+      <button onclick="hideModal()">Close</button>
+    </div>
+  
+    <script>
+      const gridData = [
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'krijain' },
+        { row: [''], tip: 'kirjain' },
+        { row: ['','','','',''], tip: 'Asuu eksaktumissa' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' },
+        { row: [''], tip: 'kirjain' }
+      ];
+  
+      const correctAnswers = [
+        ['A'],
+        ['D'],
+        ['R'],
+        ['E', 'L', 'M', 'E', 'R'],
+        ['N'],
+        ['A'],
+        ['L'],
+        ['I'],
+        ['I'],
+        ['N'],
+        ['I'],
+        ['N'],
+        ['L'],
+        ['A'],
+        ['B'],
+        ['Y'],
+        ['R'],
+        ['I'],
+        ['N'],
+        ['T'],
+        ['T'],
+        ['I']
+      ];
 
     const crosswordContainer = document.getElementById('crossword');
 
@@ -161,6 +204,12 @@
 
       rowContainer.appendChild(rowElement);
       rowContainer.appendChild(tipElement); // Place the tip next to the row
+
+      // Add a gap between the second and third row
+      if (rowIndex === 12) {
+        rowContainer.classList.add('gap');
+      }
+
       crosswordContainer.appendChild(rowContainer);
     });
 
