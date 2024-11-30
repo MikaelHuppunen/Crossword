@@ -3,16 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crossword with Autofocus and Backspace</title>
+  <title>Crossword with Tips Aligned</title>
   <style>
     .grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 2px; /* Reduced vertical gap between rows */
+    }
+    .row-container {
+      display: flex;
+      align-items: center; /* Align the tip next to the crossword */
+      gap: 10px; /* Space between the crossword and the tip */
     }
     .row {
       display: grid;
-      gap: 2px;
+      gap: 2px; /* Gap between cells */
     }
     .cell {
       width: 40px;
@@ -33,11 +38,12 @@
       background: transparent;
     }
     .cell.first {
-      background-color: yellow;
+      background-color: yellow; /* First cell in each row */
     }
     .tip {
       font-size: 16px;
       color: #555;
+      flex-shrink: 0; /* Prevent the tip from resizing */
     }
   </style>
 </head>
@@ -54,15 +60,14 @@
 
     const crosswordContainer = document.getElementById('crossword');
 
-    // Create each row dynamically
+    // Create each row with tips aligned
     gridData.forEach((data, rowIndex) => {
+      const rowContainer = document.createElement('div');
+      rowContainer.classList.add('row-container');
+
       const rowElement = document.createElement('div');
       rowElement.classList.add('row');
       rowElement.style.gridTemplateColumns = `repeat(${data.row.length}, 40px)`;
-
-      const tipElement = document.createElement('div');
-      tipElement.classList.add('tip');
-      tipElement.innerText = `Tip: ${data.tip}`;
 
       // Create cells in the row
       data.row.forEach((cell, colIndex) => {
@@ -105,8 +110,13 @@
         rowElement.appendChild(cellElement);
       });
 
-      crosswordContainer.appendChild(tipElement); // Add the tip
-      crosswordContainer.appendChild(rowElement); // Add the row
+      const tipElement = document.createElement('div');
+      tipElement.classList.add('tip');
+      tipElement.innerText = data.tip;
+
+      rowContainer.appendChild(rowElement);
+      rowContainer.appendChild(tipElement); // Place the tip next to the row
+      crosswordContainer.appendChild(rowContainer);
     });
 
     // Function to check user inputs
@@ -126,3 +136,4 @@
   </script>
 </body>
 </html>
+
